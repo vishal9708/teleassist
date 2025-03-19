@@ -4,19 +4,32 @@ import dotenv from 'dotenv';
 import fastifyFormBody from '@fastify/formbody';
 import fastifyWs from '@fastify/websocket';
 import awsLambdaFastify from 'aws-serverless-fastify';
-import fs from 'fs';
-import path from 'path';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
 // Load environment variables from .env file
 dotenv.config();
 
-// Retrieve the OpenAI API key from environment variables.
-const { OPENAI_API_KEY } = process.env;
+// Retrieve environment variables
+const { OPENAI_API_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, S3_BUCKET_NAME } = process.env;
 
 if (!OPENAI_API_KEY) {
     console.error('Missing OpenAI API key. Please set it in the .env file.');
     process.exit(1);
 }
+
+if (!AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY || !S3_BUCKET_NAME) {
+    console.error('Missing AWS credentials or bucket name. Please set them in the .env file.');
+    process.exit(1);
+}
+
+// Initialize S3 Client
+const s3Client = new S3Client({
+    region: AWS_REGION || 'us-east-1',
+    credentials: {
+        accessKeyId: AWS_ACCESS_KEY_ID,
+        secretAccessKey: AWS_SECRET_ACCESS_KEY
+    }
+});
 
 // Initialize Fastify
 const fastify = Fastify();
@@ -26,14 +39,9 @@ fastify.register(fastifyWs);
 // Constants
 const SYSTEM_MESSAGE = "You are an expert sales. Your task is to generate engaging and persuasive product descriptions for selling laptops, desktops, and accessories.";
 const VOICE = 'shimmer';
-const PORT = process.env.PORT || 5050;
-const AUDIO_DIR = path.join(process.cwd(), 'audio_recordings');
-
-// Ensure audio directory exists
-if (!fs.existsSync(AUDIO_DIR)) {
-    fs.mkdirSync(AUDIO_DIR);
-}
-
+const PORT = process.env.PORT || 8080;
+const BUCKET_NAME = S3_BUCKET_NAME;
+const RECORDINGS_FOLDER = 'recordings/';
 const LOG_EVENT_TYPES = [
     'error',
     'response.content.done',
@@ -44,29 +52,28 @@ const LOG_EVENT_TYPES = [
     'input_audio_buffer.speech_started',
     'session.created'
 ];
-
 const SHOW_TIMING_MATH = false;
 
 // Function to create a WAV header for μ-law audio
 function createWavHeader(dataLength) {
-    const header = Buffer.alloc(44); // Standard WAV header is 44 bytes
-    const sampleRate = 8000; // 8 kHz for G.711 μ-law
-    const byteRate = sampleRate * 1 * 1; // sampleRate * channels * bytesPerSample
-    const blockAlign = 1 * 1; // channels * bytesPerSample
+    const header = Buffer.alloc(44);
+    const sampleRate = 8000;
+    const byteRate = sampleRate * 1 * 1;
+    const blockAlign = 1 * 1;
 
-    header.write('RIFF', 0); // Chunk ID
-    header.writeUInt32LE(36 + dataLength, 4); // Chunk Size (total file size - 8)
-    header.write('WAVE', 8); // Format
-    header.write('fmt ', 12); // Subchunk1 ID
-    header.writeUInt32LE(16, 16); // Subchunk1 Size (16 for PCM, also used for μ-law)
-    header.writeUInt16LE(7, 20); // Audio Format (7 = μ-law)
-    header.writeUInt16LE(1, 22); // Number of Channels (1 = mono)
-    header.writeUInt32LE(sampleRate, 24); // Sample Rate
-    header.writeUInt32LE(byteRate, 28); // Byte Rate
-    header.writeUInt16LE(blockAlign, 32); // Block Align
-    header.writeUInt16LE(8, 34); // Bits Per Sample (8-bit for μ-law)
-    header.write('data', 36); // Subchunk2 ID
-    header.writeUInt32LE(dataLength, 40); // Subchunk2 Size (data length)
+    header.write('RIFF', 0);
+    header.writeUInt32LE(36 + dataLength, 4);
+    header.write('WAVE', 8);
+    header.write('fmt ', 12);
+    header.writeUInt32LE(16, 16);
+    header.writeUInt16LE(7, 20);
+    header.writeUInt16LE(1, 22);
+    header.writeUInt32LE(sampleRate, 24);
+    header.writeUInt32LE(byteRate, 28);
+    header.writeUInt16LE(blockAlign, 32);
+    header.writeUInt16LE(8, 34);
+    header.write('data', 36);
+    header.writeUInt32LE(dataLength, 40);
 
     return header;
 }
@@ -75,11 +82,18 @@ function createWavHeader(dataLength) {
 fastify.get('/', async (request, reply) => {
     reply.send({ message: 'Twilio Media Stream Server is running!' });
 });
-
+let callerNumber
 // Route for Twilio to handle incoming calls
 fastify.all('/incoming-call', async (request, reply) => {
+    console.log('Incoming call request body:', request.body);
+     callerNumber = request.body?.From || 'Unknown Caller';
+    const calledNumber = request.body?.To || 'Unknown Destination';
+    const callSid = request.body?.CallSid || 'Unknown CallSid';
+
+    console.log(`Call from: ${callerNumber} to: ${calledNumber}, CallSid: ${callSid}`);
     const twimlResponse = `<?xml version="1.0" encoding="UTF-8"?>
                           <Response>
+                             
                               <Connect>
                                   <Stream url="wss://${request.headers.host}/media-stream" />
                               </Connect>
@@ -99,12 +113,10 @@ fastify.register(async (fastify) => {
         let lastAssistantItem = null;
         let markQueue = [];
         let responseStartTimestampTwilio = null;
-
-        // Audio buffers and session state
         let callerAudioBuffer = [];
         let aiAudioBuffer = [];
-        const sessionId = Date.now(); // Unique ID for this session
-        let isAudioSaved = false; // Flag to ensure single save
+        const sessionId = Date.now();
+        let isAudioSaved = false;
 
         const openAiWs = new WebSocket('wss://api.openai.com/v1/realtime?model=gpt-4o-mini-realtime-preview-2024-12-17', {
             headers: {
@@ -126,7 +138,6 @@ fastify.register(async (fastify) => {
                     temperature: 0.8,
                 }
             };
-
             console.log('Sending session update:', JSON.stringify(sessionUpdate));
             openAiWs.send(JSON.stringify(sessionUpdate));
             sendInitialConversationItem();
@@ -146,7 +157,6 @@ fastify.register(async (fastify) => {
                     ]
                 }
             };
-
             if (SHOW_TIMING_MATH) console.log('Sending initial conversation item:', JSON.stringify(initialConversationItem));
             openAiWs.send(JSON.stringify(initialConversationItem));
             openAiWs.send(JSON.stringify({ type: 'response.create' }));
@@ -191,42 +201,60 @@ fastify.register(async (fastify) => {
             }
         };
 
-        // Save audio buffers as WAV files, called only once
-        const saveAudioFiles = () => {
+        const saveAudioFiles = async () => {
             if (isAudioSaved) {
                 console.log('Audio already saved for this session, skipping.');
                 return;
             }
 
-            const callerFilePath = path.join(AUDIO_DIR, `${sessionId}_caller.wav`);
-            const aiFilePath = path.join(AUDIO_DIR, `${sessionId}_ai.wav`);
+            const sanitizedCallerNumber = callerNumber;
+            // Updated file keys to include caller number as a folder
+            const callerFileKey = `${RECORDINGS_FOLDER}${sanitizedCallerNumber}/${sessionId}_caller.wav`;
+            const aiFileKey = `${RECORDINGS_FOLDER}${sanitizedCallerNumber}/${sessionId}_ai.wav`;
 
-            // Save caller's audio as WAV
-            if (callerAudioBuffer.length > 0) {
-                const callerAudioData = Buffer.concat(callerAudioBuffer);
-                const callerWavHeader = createWavHeader(callerAudioData.length);
-                const callerWavData = Buffer.concat([callerWavHeader, callerAudioData]);
-                fs.writeFileSync(callerFilePath, callerWavData);
-                console.log(`Saved caller's audio to ${callerFilePath}`);
-            } else {
-                console.log('No caller audio to save.');
+            try {
+                if (callerAudioBuffer.length > 0) {
+                    const callerAudioData = Buffer.concat(callerAudioBuffer);
+                    const callerWavHeader = createWavHeader(callerAudioData.length);
+                    const callerWavData = Buffer.concat([callerWavHeader, callerAudioData]);
+
+                    const callerParams = {
+                        Bucket: BUCKET_NAME,
+                        Key: callerFileKey,
+                        Body: callerWavData,
+                        ContentType: 'audio/wav'
+                    };
+
+                    await s3Client.send(new PutObjectCommand(callerParams));
+                    console.log(`Uploaded caller's audio to s3://${BUCKET_NAME}/${callerFileKey}`);
+                } else {
+                    console.log('No caller audio to save.');
+                }
+
+                if (aiAudioBuffer.length > 0) {
+                    const aiAudioData = Buffer.concat(aiAudioBuffer);
+                    const aiWavHeader = createWavHeader(aiAudioData.length);
+                    const aiWavData = Buffer.concat([aiWavHeader, aiAudioData]);
+
+                    const aiParams = {
+                        Bucket: BUCKET_NAME,
+                        Key: aiFileKey,
+                        Body: aiWavData,
+                        ContentType: 'audio/wav'
+                    };
+
+                    await s3Client.send(new PutObjectCommand(aiParams));
+                    console.log(`Uploaded AI's audio to s3://${BUCKET_NAME}/${aiFileKey}`);
+                } else {
+                    console.log('No AI audio to save.');
+                }
+
+                isAudioSaved = true;
+                callerAudioBuffer = [];
+                aiAudioBuffer = [];
+            } catch (error) {
+                console.error('Error uploading audio files to S3:', error);
             }
-
-            // Save AI's audio as WAV
-            if (aiAudioBuffer.length > 0) {
-                const aiAudioData = Buffer.concat(aiAudioBuffer);
-                const aiWavHeader = createWavHeader(aiAudioData.length);
-                const aiWavData = Buffer.concat([aiWavHeader, aiAudioData]);
-                fs.writeFileSync(aiFilePath, aiWavData);
-                console.log(`Saved AI's audio to ${aiFilePath}`);
-            } else {
-                console.log('No AI audio to save.');
-            }
-
-            // Mark as saved and clear buffers
-            isAudioSaved = true;
-            callerAudioBuffer = [];
-            aiAudioBuffer = [];
         };
 
         openAiWs.on('open', () => {
@@ -249,8 +277,6 @@ fastify.register(async (fastify) => {
                         media: { payload: response.delta }
                     };
                     connection.send(JSON.stringify(audioDelta));
-
-                    // Store AI audio
                     aiAudioBuffer.push(Buffer.from(response.delta, 'base64'));
 
                     if (!responseStartTimestampTwilio) {
@@ -287,25 +313,23 @@ fastify.register(async (fastify) => {
                                 audio: data.media.payload
                             };
                             openAiWs.send(JSON.stringify(audioAppend));
-                            // Store caller's audio
                             callerAudioBuffer.push(Buffer.from(data.media.payload, 'base64'));
                         }
                         break;
                     case 'start':
                         streamSid = data.start.streamSid;
                         console.log('Incoming stream has started', streamSid);
-                        // Reset all state on new stream start
                         callerAudioBuffer = [];
                         aiAudioBuffer = [];
                         responseStartTimestampTwilio = null;
                         latestMediaTimestamp = 0;
                         markQueue = [];
                         lastAssistantItem = null;
-                        isAudioSaved = false; // Allow saving for this new stream
+                        isAudioSaved = false;
                         break;
                     case 'stop':
                         console.log('Stream stopped', streamSid);
-                        saveAudioFiles(); // Save audio only when stream stops
+                        saveAudioFiles(callerNumber);
                         break;
                     case 'mark':
                         if (markQueue.length > 0) {
@@ -323,13 +347,11 @@ fastify.register(async (fastify) => {
 
         connection.on('close', () => {
             if (openAiWs.readyState === WebSocket.OPEN) openAiWs.close();
-            // Do not call saveAudioFiles here; rely on 'stop' event
             console.log('Client disconnected.');
         });
 
         openAiWs.on('close', () => {
             console.log('Disconnected from the OpenAI Realtime API');
-            // Do not call saveAudioFiles here; rely on 'stop' event
         });
 
         openAiWs.on('error', (error) => {
