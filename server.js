@@ -56,7 +56,7 @@ S A PLATINUM ADDITIONAL BENEFITS 24/7 ROADSIDE ASSISTANCE  For those times when 
 const VOICE = "shimmer";
 const PORT = process.env.PORT || 8080;
 const BUCKET_NAME = S3_BUCKET_NAME;
-const RECORDINGS_FOLDER = "recordings/";
+const RECORDINGS_FOLDER = "recordings";
 const LOG_EVENT_TYPES = [
   "error",
   "response.content.done",
@@ -98,6 +98,7 @@ fastify.get("/", async (request, reply) => {
   reply.send({ message: "Twilio Media Stream Server is running!" });
 });
 let callerNumber;
+let calledNumber;
 let introScript
 let promptData;
 // Route for Twilio to handle incoming calls
@@ -105,7 +106,7 @@ fastify.all("/incoming-call", async (request, reply) => {
   try{
   console.log("Incoming call request body:", request.body);
   callerNumber = request.body?.From || "Unknown Caller";
-  let calledNumber = request.body?.To || "Unknown Destination";
+  calledNumber = request.body?.To || "Unknown Destination";
   const callSid = request.body?.CallSid || "Unknown CallSid";
   const response = await axios.get(
     `https://j7grsrn6sc.execute-api.ap-south-1.amazonaws.com/dev/api/agent/by-phone/${calledNumber.replace("+", "")}`
@@ -253,8 +254,8 @@ fastify.register(async (fastify) => {
 
       const sanitizedCallerNumber = callerNumber;
       // Updated file keys to include caller number as a folder
-      const callerFileKey = `${RECORDINGS_FOLDER}${sanitizedCallerNumber}/${sessionId}_caller.wav`;
-      const aiFileKey = `${RECORDINGS_FOLDER}${sanitizedCallerNumber}/${sessionId}_ai.wav`;
+      const callerFileKey = `${RECORDINGS_FOLDER}/${calledNumber}/${sanitizedCallerNumber}/${sessionId}_caller.wav`;
+      const aiFileKey = `${RECORDINGS_FOLDER}/${calledNumber}/${sanitizedCallerNumber}/${sessionId}_ai.wav`;
 
       try {
         if (callerAudioBuffer.length > 0) {
