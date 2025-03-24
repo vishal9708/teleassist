@@ -109,7 +109,7 @@ fastify.all("/incoming-call", async (request, reply) => {
   calledNumber = request.body?.To || "Unknown Destination";
   const callSid = request.body?.CallSid || "Unknown CallSid";
   const response = await axios.get(
-    `https://j7grsrn6sc.execute-api.ap-south-1.amazonaws.com/dev/api/agent/by-phone/${calledNumber.replace("+", "")}`
+    `https://j7grsrn6sc.execute-api.ap-south-1.amazonaws.com/dev/api/agent/by-phone/${calledNumber.replaceAll("+", "")}`
   );
   console.log("response Data", response.data.agents);
   introScript = response.data.agents.welcomeMessage;
