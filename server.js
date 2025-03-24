@@ -5,6 +5,7 @@ import fastifyFormBody from "@fastify/formbody";
 import fastifyWs from "@fastify/websocket";
 import awsLambdaFastify from "aws-serverless-fastify";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import axios from "axios";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -97,13 +98,21 @@ fastify.get("/", async (request, reply) => {
   reply.send({ message: "Twilio Media Stream Server is running!" });
 });
 let callerNumber;
+let introScript
+let promptData;
 // Route for Twilio to handle incoming calls
 fastify.all("/incoming-call", async (request, reply) => {
+  try{
   console.log("Incoming call request body:", request.body);
   callerNumber = request.body?.From || "Unknown Caller";
-  const calledNumber = request.body?.To || "Unknown Destination";
+  let calledNumber = request.body?.To || "Unknown Destination";
   const callSid = request.body?.CallSid || "Unknown CallSid";
-
+  const response = await axios.get(
+    `https://j7grsrn6sc.execute-api.ap-south-1.amazonaws.com/dev/api/agent/by-phone/${calledNumber.replace("+", "")}`
+  );
+  console.log("response Data", response.data.agents);
+  introScript = response.data.agents.welcomeMessage;
+  promptData = response.data.agents.pdfFile;
   console.log(
     `Call from: ${callerNumber} to: ${calledNumber}, CallSid: ${callSid}`
   );
@@ -116,6 +125,9 @@ fastify.all("/incoming-call", async (request, reply) => {
                           </Response>`;
 
   reply.type("text/xml").send(twimlResponse);
+}catch(error){
+  console.log(error)
+}
 });
 
 // WebSocket route for media-stream
@@ -152,7 +164,7 @@ fastify.register(async (fastify) => {
           input_audio_format: "g711_ulaw",
           output_audio_format: "g711_ulaw",
           voice: VOICE,
-          instructions: SYSTEM_MESSAGE,
+          instructions: promptData,
           modalities: ["text", "audio"],
           temperature: 0.8,
         },
@@ -171,7 +183,7 @@ fastify.register(async (fastify) => {
           content: [
             {
               type: "input_text",
-              text: 'Greet the user with "Hey there! My name is Aimee from Pohanka Dealership. A Toyota Vehicle Service Agreement (VSA) covers repairs after your warranty expires, protects against rising costs, and includes 24/7 roadside assistance. Would you like to explore your options?"',
+              text: `Greet the user with ${introScript} `,
             },
           ],
         },
