@@ -53,7 +53,7 @@ VSA PLATINUM  VSA Platinum covers the cost of mechanical breakdown of the parts 
 HYBRID/ALTERNATIVE FUEL  Actuator Assembly Shift Control; Hybrid Vehicle Generator Assembly; Hybrid Vehicle Motor Assembly; Hybrid Vehicle Transaxle Assembly; Transmission Input Damper Assembly; Battery Computer Assembly; Battery Current Sensor; Boost Charging Inlet and Plug-in Electronic Control Unit; Circuit Breaker Sensor; Combination Meter Assembly; Combination Meter Computer; Fuel Cell Water Pump; Fueling Receptacle; Hybrid Vehicle Battery Blower Assembly; Hybrid Vehicle Battery Blower Motor Control; Hybrid Vehicle Battery Thermistor; Hybrid Vehicle Control Computer; Hydrogen Pipes and Manifolds; Inverter Assembly with Converter; Main Switch Assembly; Power Source Control Computer Assembly; Power Steering Electronic Control Unit Assembly; Power Steering Gear Assembly; Pressure Sensors; Reducing Valve; Shift Lever Position Sensor; Skid Control Computer Assembly; Steering Column Assembly; Transmission Control Module  ELECTRICAL  Alternator; Automatic-Off Headlamp Sensor, Timer and Switches; Automatic Shoulder Belt Motor and Switches; Automatic Temperature Control Unit; Battery to Ground Cable; Battery to Starter Cable; Blower Motor; Blower Motor Resistor; Charge Warning Relay; Clutch Starter Interlock Switch; Convertible Top Motor; Cruise Control Actuator/Servo; Cruise Control Sensors and Switches; Cruise Control Vacuum Motor; Defogger Relay; Distributor; Door Control Relay; Engine Coolant Temperature Gauge and Sending Unit; Engine Coolant Temperature Receiver Gauge and Sending Unit; Engine Cooling Fan Motor; Engine Tachometer; Fuel Gauge and Sending Unit; Fuel Receiver Gauge and Sending Unit; Guide Rail Limit Switch; Headlamp Washer; Headlight Control Relay; Horn; Horn (for theft deterrent); Ignition Coil; Ignition Switch Lock Cylinder and Key Set; Integration Relay; Lamp Failure Indicator Sensor; Lock Cylinder Set; Main Relay; Manually Operated Switches; Oil Pressure Receiver Gauge and Sending Unit; Power Antenna Motor and Cable; Power Door Lock Actuator; Power Mirror Defogger; Power Mirror Motor; Power Seat Motors; Power Sliding Door Motor; Power Window Motor/Regulator; Rear Shock Absorber Control Actuator; Retractable Headlamp Motor; Shoulder Belt Drive Motor; Smart Entry and Start System Switch, Sensor and Electronic Control Unit; Spark Plug Resistive Cord; Speedometer; Starter Motor; Starter Solenoid; Stop Light Switch; Sunroof Cables; Sunroof Motor; Taillight Control Relay; Turn Signal Flasher; Unlock Warning Buzzer; Windshield Washer Pump; Windshield Wiper Link Assembly; Wiper Control Relay; Wiper Motor; Wiring Harnesses  COMPUTERS AND ELECTRONICS  Airbags; Airbag Sensors; Antenna Cord; Anti-Lock Braking/Traction Control Computer and Sensors; Automatic Shoulder Belt Computer; Body Control Module; Circuit Opening Relay; Compact Disc (CD) Player; Cruise Control Computer; Electronic Ignition Unit; Electronically Controlled Transmission/Transfer Case Computer and Sensors; Electronically Modulated Suspension Computer; Engine Control Computer; Front Seat Airbag Assembly; Graphic Equalizer; Knock Sensor; Navigation System; Power Mirror Electronic Control Unit; Power Seat Computer; Progressive Power Steering Computer; Radio Tuner; Steering Sensor; Stereo Component Amplifier; Sunroof Control Computer and Relay; Tape Player; Tilt/Telescoping Steering Computer; Traction Control Computer; Trip Computer; Variable Induction System; Vehicle Security Computers and Sensor; Wiper Module  ADDITIONAL COMPONENTS  Accelerator Pedal and/or Bracket Subassembly; Accelerator Pedal Rod Assembly; Back Door Lock Assembly; Convertible Roof Hook; Door Handles; Door Lock Cylinder; Front and Rear Door Lock Assembly; Front Seat Belt; Glove Compartment Door Lock Cylinder; Glove Compartment Door Latch Subassembly; Hinges; Hood Lock Assembly; Hood Lock Control Cable Assembly; Hood Support Assembly; Rear Seat Belt; Reclining Seat Back Adjuster; Removable Roof Lock Handle; Seat Track Assembly; Shoulder Belt Guide Rail Assembly; Sliding Roof Drive Cable; Sliding Roof Guide Rail; Tail Gate Lock Assembly; Tilt Roof Lock Handle Assembly  THESE ARE THE ITEMS NOT COVERED  Accessory Drive Belts; Batteries; Body Panels; Brake Linings, Pads, and Shoes, Rotors and Drums; Bumpers; Carpet; Chrome; Clutch Friction Disc and Pressure Plate; Dash Cover and Pad; Door Fabric; Door Trim; Filters; Fluids; Fuel Cell Air Compressor; Fuel Cell Boost Converter; Fuel Cell Electronic Control Unit; Fuel Cell Hydrogen Tanks; Fuel Cell Power Control Unit; Fuel Cell Stack; Fuel Cell Vehicle Battery Pack; Glass (including Windshields); Headliner; Heating Hoses, Lines, and Tubes; Hoses; Hybrid Vehicle Battery Pack; Hybrid Vehicle Battery Plug Assembly; Hybrid Vehicle Relay Assembly; Hybrid Vehicle Supply Battery Assembly; Hydrogen Fueling Electronic Control Unit; Interior and Exterior Trim and Moldings (including but not limited to: Ashtrays, Covers, Cup Holders, and Vents); Lamps, Light Assemblies/ Housings, and Light Bulbs; Nuts, Bolts, Clips, Retainers, and Fasteners; Paint; Rust and Corrosion Damage; Seat Covers; Sheet Metals; Shiny Metals; Spark Plugs; Structural Framework and Welds; Tires; Vacuum Hoses, Lines, and Tubes; Weather Stripping; Wheels and Rims; Windshield Wiper Blades (rubber component); All interior and exterior cloth, leather, and stitching including convertible tops and/or vinyl tops including but not limited to: any vibration, deterioration, discoloration, disfigurement, warping, fading, staining, stretching, ripping, punctures, tearing, and/or scratches
 S A PLATINUM ADDITIONAL BENEFITS 24/7 ROADSIDE ASSISTANCE  For those times when the unexpected might occur, VSA Platinum also provides 24/7 Roadside Assistance.   3 •   Battery jump start •   Lockout protection •   Delivery of up to three (3) gallons of fuel, no more than two (2) times per calendar month   3 •   Tire service — Impaired tire will be replaced with your inflated spare •   Towing to the nearest authorized dealer   3 •   Winching — Extrication from any ditch, mud, sand, or snow. Vehicle must be immediately adjacent to a regularly traveled road and capable of being serviced with standard servicing equipment.  TRAVEL PROTECTION  If you’re unable to drive your vehicle due to the mechanical breakdown of a covered component, substitute transportation and travel protection benefits will provide reimbursements of: •   Up to   $50 per day   for car rentals or other substitute transportation.   5   Maximum of five (5) days per occurrence. •   Up to   $100 per day   for lodging and meals if you’re more than 150 miles from home.   5   Maximum of five (5) days over the life of your agreement.  LEARN MORE ABOUT VSA PLATINUM  Exclusions  5.   Due to a covered mechanical failure. Valid receipts are required for all reimbursements.  VEHICLE SERVICE AGREEMENT  The purchase of a Vehicle Service Agreement Voluntary Protection Product is optional, cancelable (subject to specific agreement terms) and not required to obtain credit.  This brochure is intended as an outline of Vehicle Service Agreement coverage. Coverage is subject to exclusions and limitations set forth in the Vehicle Service Agreement. The actual coverage, exclusions, and limitations of the agreements issued to customers may vary both from state to state and according to the program features chosen by the customer. In certain states, Toyota Motor Services Company administers Vehicle Service Agreements. Vehicle Service Agreements are available through Toyota Financial Services at participating Toyota dealerships only. Not available in select states.  In Florida, the administrator is Toyota Motor Insurance Company, P.O. BOX 661012, Dallas, TX, 75265, Florida License #02871  ©2024 Toyota Motor Insurance Services, Inc. oyota Financial Services is a service mark used by Toyota Motor Insurance Services, Inc. (TMIS) and its subsidiaries. Voluntary Protection Products are administered by TMIS or a third party contracted by TMIS. 00703 · 24-847600 (08/24)
 `;
-const VOICE = "shimmer";
+let VOICE;
 const PORT = process.env.PORT || 8080;
 const BUCKET_NAME = S3_BUCKET_NAME;
 const RECORDINGS_FOLDER = "recordings";
@@ -99,25 +99,30 @@ fastify.get("/", async (request, reply) => {
 });
 let callerNumber;
 let calledNumber;
-let introScript
+let introScript;
 let promptData;
 // Route for Twilio to handle incoming calls
 fastify.all("/incoming-call", async (request, reply) => {
-  try{
-  console.log("Incoming call request body:", request.body);
-  callerNumber = request.body?.From || "Unknown Caller";
-  calledNumber = request.body?.To || "Unknown Destination";
-  const callSid = request.body?.CallSid || "Unknown CallSid";
-  const response = await axios.get(
-    `https://j7grsrn6sc.execute-api.ap-south-1.amazonaws.com/dev/api/agent/by-phone/${calledNumber.replaceAll("+", "")}`
-  );
-  console.log("response Data", response.data.agents);
-  introScript = response.data.agents.welcomeMessage;
-  promptData = response.data.agents.pdfFile;
-  console.log(
-    `Call from: ${callerNumber} to: ${calledNumber}, CallSid: ${callSid}`
-  );
-  const twimlResponse = `<?xml version="1.0" encoding="UTF-8"?>
+  try {
+    console.log("Incoming call request body:", request.body);
+    callerNumber = request.body?.From || "Unknown Caller";
+    calledNumber = request.body?.To || "Unknown Destination";
+    const callSid = request.body?.CallSid || "Unknown CallSid";
+    const response = await axios.get(
+      `https://j7grsrn6sc.execute-api.ap-south-1.amazonaws.com/dev/api/agent/by-phone/${calledNumber.replaceAll(
+        "+",
+        ""
+      )}`
+    );
+    console.log("response Data", response.data.agents);
+    introScript = response.data.agents.welcomeMessage;
+    promptData = response.data.agents.pdfFile;
+    VOICE = response.data.agents.voice;
+
+    console.log(
+      `Call from: ${callerNumber} to: ${calledNumber}, CallSid: ${callSid}`
+    );
+    const twimlResponse = `<?xml version="1.0" encoding="UTF-8"?>
                           <Response>
                              
                               <Connect>
@@ -125,10 +130,10 @@ fastify.all("/incoming-call", async (request, reply) => {
                               </Connect>
                           </Response>`;
 
-  reply.type("text/xml").send(twimlResponse);
-}catch(error){
-  console.log(error)
-}
+    reply.type("text/xml").send(twimlResponse);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 // WebSocket route for media-stream
@@ -168,6 +173,12 @@ fastify.register(async (fastify) => {
           instructions: promptData,
           modalities: ["text", "audio"],
           temperature: 0.8,
+          turn_detection: {
+            type: "server_vad",
+            threshold: 0.5,
+            prefix_padding_ms: 300,
+            silence_duration_ms: 200,
+          },
         },
       };
       console.log("Sending session update:", JSON.stringify(sessionUpdate));
